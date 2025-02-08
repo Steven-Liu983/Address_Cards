@@ -1,0 +1,87 @@
+<mat-tab-group>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon>add_circle_outline</mat-icon> Add
+    </ng-template>
+    <br>
+    <div class="card">
+      <div class="card-body">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <form id="fline" (ngSubmit)="addSubmit()">
+              <div class="form-group row">
+                <label class="col-auto col-form-label" for="line1"><strong>Line 1&nbsp;</strong></label>
+                <div class="col-md-9">
+                  <input type="text" class="form-control" id="line1" name="line1" minlength="2" required>
+                </div>
+                <div class="col-auto" (mouseenter)="delBtn=false" (mouseleave)="delBtn=true">
+                  <button type="button" (click)="addLine()" class="btn btn-primary">Add <i class="bi bi-plus-circle"></i></button>
+                  <button type='button' (click)='delLine()' class='btn btn-danger' style="margin-left: 2px" [hidden]="delBtn"><i class='bi bi-dash-circle'></i></button>
+                  <button type='submit' class='btn btn-success' style="margin-left: 5px">Save <i class="bi bi-save"></i></button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="panel-body">
+            <form>
+            @for (card of cards; track card; let i = $index) {
+              <div class="form-group row">
+                <label class="col-auto col-form-label" for="adr0{{card.cardId}}"><strong>Card {{i+1}}</strong></label>
+                <div class="col-md-9">
+                  @for (addr of card.address; track addr; let n = $index) {
+                    <input type="text" class="form-control" id="adr{{n}}{{card.cardId}}" name="adr{{n}}{{card.cardId}}" value="{{card.address[n]}}">
+                  }
+                </div>
+                <div class="col-auto">
+                  <button type="button" (click)="updateCard(card.cardId, card.address.length)" class="btn btn-info">Update <i class="bi bi-pencil-square"></i></button>
+                  <button type="button" (click)="deleteCard(card.cardId)" class="btn btn-danger" style="margin-left: 10px">Delete <i class="bi bi-trash"></i></button>
+                </div>
+              </div>
+            }
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon>search</mat-icon> Search
+    </ng-template>
+    <br>
+    <div class="card">
+      <div class="card-body">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <form (ngSubmit)="searchSubmit()">
+              <div class="form-group row">
+                <label class="col-md-1 col-form-label" for="search"><strong>Search</strong></label>
+                <div class="col-md-10">
+                  <input type="text" class="form-control" id="search" name="search" [(ngModel)]="search" required>
+                </div>
+                <div class="col-auto">
+                  <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="panel-body">
+            <form>
+            @for (res of results; track res; let i = $index) {
+              <div class="form-group row">
+                <label class="col-md-1 col-form-label"><strong>Card {{i+1}}</strong></label>
+                <div class="col-md-10">
+                  @for (addr of res.address; track addr; let n = $index) {
+                    <span class="form-control">{{res.address[n]}}</span>
+                  }
+                </div>
+              </div>
+            }
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>
